@@ -5,6 +5,7 @@ function App() {
   return (
     <Alert variant="darsadfk ">
       <Button> Login </Button>
+      <Button> Login </Button>
     </Alert>
   );
 }
