@@ -42,7 +42,7 @@ function App() {
               </Figure>
             </Col>
             <Col md={{ span: 1 }} style={Pad0}>
-              <Button block style={{ marginTop: 10 }}>
+              <Button block style={{ marginTop: 10}}>
                 {" "}
                 Course{" "}
               </Button>
