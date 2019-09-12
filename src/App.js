@@ -13,6 +13,7 @@ import {
 import ImgVova from "./Vova.jpg";
 import ImgRoma from "./Roma.jpg";
 import ImgSerhiy from "./Serhiy.jpg";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 const Pad0 = {
   padding: 0,
   margin: 0
