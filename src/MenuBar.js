@@ -1,16 +1,6 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import {
-  Alert,
-  Button,
-  Row,
-  Col,
-  Container,
-  Figure,
-  Card,
-  CardDeck,
-  Jumbotron
-} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Alert, Button, Row, Col, Figure } from "react-bootstrap";
 const Pad0 = {
   padding: 0,
   margin: 0

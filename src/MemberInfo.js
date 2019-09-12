@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  Alert,
-  Button,
-  Row,
-  Col,
-  Container,
-  Figure,
-  Card,
-  CardDeck,
-  Jumbotron
-} from "react-bootstrap";
-
+import { Card } from "react-bootstrap";
 const MemberInfo = props => {
   return (
     <Card style={props.style}>
