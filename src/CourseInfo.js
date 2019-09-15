@@ -1,18 +1,34 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Row, Col, Figure, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+
 const CourseInfo = props => {
   return (
-    <Link to="/Courses">
-      <Card style={props.style}>
-        <Card.Img variant="top" src={props.Img} block />
-        <Card.Body>
-          <Card.Title>{props.Name}</Card.Title>
-       
-        </Card.Body>
-        <Card.Footer>see more</Card.Footer>
-      </Card>
-    </Link>
+    <Row style={{ paddingTop: 100, paddingBottom: 50 }}>
+      <Col>
+        <Figure>
+          <Figure.Image
+            width={1440}
+            height={600}
+            alt={props.Logo}
+            src={props.Img}
+          />
+        </Figure>
+      </Col>
+      <Col>
+        <Card bsStyle="tabs" className="custom-card-courseInfo">
+          <Card.Body>
+            <Card.Title className="custom-card-courseInfo-title">
+              {props.Title}
+            </Card.Title>
+            <Card.Text className="custom-card-courseInfo-text">
+              {props.Text}
+            </Card.Text>
+            <Button variant="outline-dark">Go to module</Button>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 export default CourseInfo;

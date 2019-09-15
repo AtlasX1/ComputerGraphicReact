@@ -1,0 +1,35 @@
+.custom-card {
+  border-color: white;
+}
+
+.custom-card-body {
+  text-align: center;
+}
+.custom-card-courseInfo {
+  border-color: white;
+  margin: 15%;
+  margin-left: 0;
+}
+.custom-card-courseInfo-title {
+  font-size: 48px;
+}
+
+.custom-card-courseInfo-text {
+  font-size: 22px;
+}
+.custom-card-body-title {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 48px;
+  line-height: 55px;
+
+  color: #666666;
+}
+.custom-card-body-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 25px;
+
+  color: rgba(102, 102, 102, 0.5);
+}
