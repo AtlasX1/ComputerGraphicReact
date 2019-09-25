@@ -15,36 +15,65 @@ const FontStyle = {
   fontSize: "18px",
   fontFamily: "Font Awesome 5 Brands Regular"
 };
+
+function Click() {
+  let URL_href = window.location.href;
+
+  if (
+    URL_href === "http://localhost:3000/CourseFractal" ||
+    URL_href === "http://localhost:3000/CourseColor" ||
+    URL_href === "http://localhost:3000/CourseAffine"
+  ) {
+    return "/";
+  } else {
+    return "#home";
+  }
+}
 export default class MenuBar extends React.Component {
   render() {
     return (
-      <Navbar style={{backgroundColor:"#343A40",height:"64px"}}fixed="top">
-        <Navbar.Brand href="#home">
-          <Link to="/">
-            <Figure style={Pad0}>
-              <Figure.Image
-                width={50}
-                height={50}
-                alt="Logo"
-                src={Logo}
-                style={Pad0}
-              />
-            </Figure>
-          </Link>
+      <Navbar
+        style={{ backgroundColor: "#343A40", height: "64px" }}
+        fixed="top"
+      >
+        <Navbar.Brand href={Click()}>
+          <Figure
+            style={Pad0}
+            onClick={() => {
+              Click();
+            }}
+          >
+            <Figure.Image
+              width={50}
+              height={50}
+              alt="Logo"
+              src={Logo}
+              style={Pad0}
+            />
+          </Figure>
         </Navbar.Brand>
+
         <Navbar.Collapse className="justify-content-end">
-          <Nav defaultActiveKey="/" as="ul" >
+          <Nav defaultActiveKey="/" as="ul">
             <Nav.Item as="li">
-              <Nav.Link style={FontStyle}>Fractal art</Nav.Link>
+              <Nav.Link style={FontStyle} href="#FractalArt">
+                Fractal art
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Nav.Link style={FontStyle}>Color models</Nav.Link>
+              <Nav.Link style={FontStyle} href="#ColorModels">
+                Color models
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Nav.Link style={FontStyle}>Affine transformation</Nav.Link>
+              <Nav.Link style={FontStyle} href="#AffineTransformation">
+                Affine transformation
+              </Nav.Link>
             </Nav.Item>
             <Nav.Item as="li">
-              <Nav.Link style={FontStyle}>Our Team</Nav.Link>
+              <Nav.Link style={FontStyle} href="#OurTeam">
+                Our Team
+              </Nav.Link>
             </Nav.Item>
           </Nav>
         </Navbar.Collapse>

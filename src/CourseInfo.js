@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Row, Col, Figure, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+
 
 const CourseInfo = props => {
   return (
@@ -24,7 +24,7 @@ const CourseInfo = props => {
             <Card.Text className="custom-card-courseInfo-text">
               {props.Text}
             </Card.Text>
-            <Button variant="outline-dark">Go to module</Button>
+            <Button variant="outline-dark" href={props.Link}>Go to module</Button>
           </Card.Body>
         </Card>
       </Col>

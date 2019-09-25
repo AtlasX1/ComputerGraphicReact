@@ -9,13 +9,16 @@ import {
   Figure,
   Button
 } from "react-bootstrap";
+import "./Style.css";
+//---------------------------------------Компоненти---------------------------
 import MenuBar from "./MenuBar.js";
 import MemberInfo from "./MemberInfo.js";
-
-import Logo from "./Ebec.png";
 import CourseInfo from "./CourseInfo.js";
-import "./Style.css";
+import CourseFractal from "./CourseFractal.js";
+import CourseColor from "./CourseColor.js";
+import CourseAffine from "./CourseAffine.js";
 //--------------------------------------------------------------Фотографії---------
+import Logo from "./Ebec.png";
 import ImgVova from "./Vova.jpg";
 import ImgRoma from "./Roma.jpg";
 import ImgSerhiy from "./Serhiy.jpg";
@@ -36,6 +39,9 @@ const BasicExample = () => {
           <MenuBar />
         </Container>
         <Route exact path="/" component={Home} />
+        <Route exact path="/CourseFractal" component={CourseFractal} />
+        <Route exact path="/CourseColor" component={CourseFractal} />
+        <Route exact path="/CourseAffine" component={CourseFractal} />
       </div>
     </Router>
   );
@@ -44,8 +50,10 @@ const BasicExample = () => {
 const Home = () => {
   return (
     <Container fluid style={{ padding: 0, margin: 0 }}>
+      <selection id="home" />
       <Container fluid>
         <br />
+
         <Container
           fluid
           style={{ paddingBottom: 150, margin: 0, paddingTop: 150 }}
@@ -79,7 +87,7 @@ const Home = () => {
         </Container>
       </Container>
       {/*----------------------------------------------------------------------------------------------------------------------------------------- */}
-
+      <selection id="FractalArt" />
       <Container fluid>
         <CourseInfo
           Img={Img2}
@@ -90,9 +98,9 @@ const Home = () => {
       aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
       elit, sed do eiusmod tempor incididunt ut labore et dolore
       magna aliqua."
-          Link="/"
+          Link="/CourseFractal"
         />
-
+        <selection id="ColorModels" />
         <Row style={{ paddingTop: 100, paddingBottom: 50 }}>
           <Col>
             {" "}
@@ -108,7 +116,7 @@ const Home = () => {
                   elit, sed do eiusmod tempor incididunt ut labore et dolore
                   magna aliqua.
                 </Card.Text>
-                <Button variant="outline-dark">Go to module</Button>
+                <Button variant="outline-dark" href="/CourseColor">Go to module</Button>
               </Card.Body>
             </Card>
           </Col>
@@ -118,7 +126,7 @@ const Home = () => {
             </Figure>
           </Col>
         </Row>
-
+        <selection id="AffineTransformation" />
         <CourseInfo
           Img={Img2}
           Logo="Logo"
@@ -128,12 +136,14 @@ const Home = () => {
       aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
       elit, sed do eiusmod tempor incididunt ut labore et dolore
       magna aliqua."
-          Link="/"
+          Link="/CourseAffine"
         />
       </Container>
+      {/*----------------------------------------------------------------------------------------------------------------------------------------- */}
 
+      <selection id="OurTeam" />
       <Container>
-        <Container style={{ textAlign: "center", paddingTop: "100px" }}>
+        <Container style={{ textAlign: "center", paddingTop: "120px" }}>
           <h1>Our team</h1>
         </Container>
 
@@ -154,7 +164,7 @@ const Home = () => {
             style={{ width: "18rem" }}
             Img={ImgVova}
             Name="Морозов Володимер"
-            Role="Just good ̶g̶i̶r̶l̶ boy"
+            Role="Just good boy"
           />
         </CardDeck>
       </Container>
