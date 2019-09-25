@@ -40,8 +40,8 @@ const BasicExample = () => {
         </Container>
         <Route exact path="/" component={Home} />
         <Route exact path="/CourseFractal" component={CourseFractal} />
-        <Route exact path="/CourseColor" component={CourseFractal} />
-        <Route exact path="/CourseAffine" component={CourseFractal} />
+        <Route exact path="/CourseColor" component={CourseColor} />
+        <Route exact path="/CourseAffine" component={CourseAffine} />
       </div>
     </Router>
   );
