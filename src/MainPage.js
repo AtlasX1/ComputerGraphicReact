@@ -163,7 +163,7 @@ const Home = () => {
           <MemberInfo
             style={{ width: "18rem" }}
             Img={ImgVova}
-            Name="Морозов Володимер"
+            Name="Морозов Володимир"
             Role="Just good boy"
           />
         </CardDeck>
