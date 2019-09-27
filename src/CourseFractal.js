@@ -10,7 +10,9 @@ import {
   CardGroup,
   Container
 } from "react-bootstrap";
+
 import CanvasFractal from "./CanvasFractal.js";
+
 const CourseName = props => {
   return (
     <h1 style={{ paddingTop: "60px" }}>
@@ -19,20 +21,16 @@ const CourseName = props => {
   );
 };
 
-const Canv = (props) => {
+const Canv = () => {
   return (
     <CardGroup>
-      <Card border="secondary" style={{ width: "18rem" }}>
+      <Card border="secondary" style={{ width: "0rem" }}>
         <Card.Header>Mandelbort set</Card.Header>
-        <Card.Body id="CardBody1">
-          <CanvasFractal />
-        </Card.Body>
+        <CanvasFractal />
       </Card>
-      <Card border="secondary" style={{ width: "18rem" }}>
+      <Card border="secondary" style={{ width: "0rem" }}>
         <Card.Header>Julia set</Card.Header>
-        <Card.Body>
-          <CanvasFractal />
-        </Card.Body>
+        <CanvasFractal />
       </Card>
     </CardGroup>
   );

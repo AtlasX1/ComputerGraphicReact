@@ -1,29 +1,37 @@
 import React from "react";
-function rect(props) {
-  const { ctx, x, y, width, height } = props;
-  ctx.fillRect(x, y, width, height);
-}
+
 export default class CanvasFractal extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { state: 0 };
+    this.state = {
+      canvasHeight: 0,
+      canvasWidth: 0
+    };
   }
+
   componentDidMount() {
-    const canvasHeight = document.getElementById("CardBody1").clientHeight;
-    const canvasWidth = document.getElementById("CardBody1").clientWidth;
+    const canvasHeight = 480; //document.getElementById("CardBody1").clientHeight;
+    const canvasWidth = 640; //document.getElementById("CardBody1").clientWidth;
     this.setState({ canvasWidth, canvasHeight });
     this.updateCanvas();
   }
+
   componentDidUpdate() {
     this.updateCanvas();
   }
+
+  strokeCanvas(ctx) {
+    ctx.strokeRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
+  }
+
   updateCanvas() {
     const ctx = this.refs.canvas.getContext("2d");
     ctx.clearRect(0, 0, this.state.canvasWidth, this.state.canvasHeight);
 
-    rect({ ctx, x: 10, y: 10, width: this.state.canvasWidth, height: this.state.canvasHeight });
+    //this.strokeCanvas(ctx);
   }
+
   render() {
     return (
       <canvas
