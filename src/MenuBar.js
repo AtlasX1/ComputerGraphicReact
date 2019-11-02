@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoImg from "./Ebec.png";
+import LogoImg from "./CG-Logo-2.png";
 import { Alert, Button, Row, Col, Figure, Navbar, Nav } from "react-bootstrap";
 import HelpFractal from "./HelpFractal.js";
 import HelpColor from "./HelpColor.js";
@@ -101,7 +101,7 @@ const NavbarMenu = () => {
   ) {
     return (
       <Navbar
-        style={{ backgroundColor: "#343A40", height: "64px" }}
+        style={{ backgroundColor: "#002850", height: "64px" }}
         fixed="top"
       >
         <Logotype />
@@ -111,7 +111,7 @@ const NavbarMenu = () => {
   } else {
     return (
       <Navbar
-        style={{ backgroundColor: "#343A40", height: "64px" }}
+        style={{ backgroundColor: "#002850", height: "64px" }}
         fixed="top"
       >
         <Logotype />

@@ -18,11 +18,12 @@ import CourseFractal from "./CourseFractal.js";
 import CourseColor from "./CourseColor.js";
 import CourseAffine from "./CourseAffine.js";
 //--------------------------------------------------------------Фотографії---------
-import Logo from "./Ebec.png";
+import Logo from "./CG-Logo-2.png";
 import ImgVova from "./Vova.jpg";
 import ImgRoma from "./Roma.jpg";
 import ImgSerhiy from "./Serhiy.jpg";
 
+import Sky from "./Sky.jpg";
 import Img2 from "./Image2.png";
 import Img3 from "./Image3.png";
 //----------------------------------------------------------------------------------
@@ -49,7 +50,10 @@ const BasicExample = () => {
 
 const Home = () => {
   return (
-    <Container fluid style={{ padding: 0, margin: 0 }}>
+    <Container
+      fluid
+      style={{ padding: 0, margin: 0, backgroundImage: `url(${Sky})` }}
+    >
       <selection id="home" />
       <Container fluid>
         <br />
@@ -116,7 +120,9 @@ const Home = () => {
                   elit, sed do eiusmod tempor incididunt ut labore et dolore
                   magna aliqua.
                 </Card.Text>
-                <Button variant="outline-dark" href="/CourseColor">Go to module</Button>
+                <Button variant="outline-dark" href="/CourseColor">
+                  Go to module
+                </Button>
               </Card.Body>
             </Card>
           </Col>
