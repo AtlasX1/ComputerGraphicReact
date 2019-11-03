@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import LogoImg from "./CG-Logo-2.png";
 import { Alert, Button, Row, Col, Figure, Navbar, Nav } from "react-bootstrap";
-import HelpFractal from "./HelpFractal.js";
-import HelpColor from "./HelpColor.js";
-import HelpAffine from "./HelpAffine.js";
+import HelpFractal from "./components/help/HelpFractal.js";
+import HelpColor from "./components/help/HelpColor.js";
+import HelpAffine from "./components/help/HelpAffine.js";
 const Pad0 = {
   padding: 0,
   margin: 0

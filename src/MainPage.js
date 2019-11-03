@@ -14,9 +14,9 @@ import "./Style.css";
 import MenuBar from "./MenuBar.js";
 import MemberInfo from "./MemberInfo.js";
 import CourseInfo from "./CourseInfo.js";
-import CourseFractal from "./CourseFractal.js";
-import CourseColor from "./CourseColor.js";
-import CourseAffine from "./CourseAffine.js";
+import CourseFractal from "./components/courses/CourseFractal.js";
+import CourseColor from "./components/courses/CourseColor.js";
+import CourseAffine from "./components/courses/CourseAffine.js";
 //--------------------------------------------------------------Фотографії---------
 import Logo from "./CG-Logo-2.png";
 import ImgVova from "./Vova.jpg";
