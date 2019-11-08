@@ -19,8 +19,7 @@ export default class CanvasFractal extends React.Component {
 
     this.state = {
       canvasHeight: 0,
-      canvasWidth: 0,
-      name: props.name
+      canvasWidth: 0
     };
   }
 
@@ -28,6 +27,7 @@ export default class CanvasFractal extends React.Component {
     const canvasHeight = 480;
     const canvasWidth = 640;
     this.setState({ canvasWidth, canvasHeight });
+
     this.updateCanvas();
   }
 
@@ -48,7 +48,7 @@ export default class CanvasFractal extends React.Component {
     return (
       <CardGroup>
         <Card border="secondary" style={{ width: "0rem" }}>
-          <Card.Header align="center">{this.state.name}</Card.Header>
+          <Card.Header align="center">{this.props.name}</Card.Header>
           <canvas
             ref="canvas"
             width={this.state.canvasWidth}
