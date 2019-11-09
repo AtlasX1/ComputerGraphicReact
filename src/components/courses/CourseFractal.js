@@ -432,15 +432,18 @@ export default class Setting extends React.Component {
               </Card>
             </CardGroup>
           </Col>
-          <Col lg="10">
-            <CardGroup>
-              <Card border="secondary" style={{ width: "0rem" }}>
-                <Card.Header align="center">
-                  {this.state.MethodName1}
-                </Card.Header>
-                <canvas ref="canvas" width={640} height={480} />
-              </Card>
-            </CardGroup>
+          <Col lg="5">
+            <Container >
+              <CardGroup>
+                <Card border="secondary" style={{ width: "0rem" }}>
+                  <Card.Header align="center">
+                    {this.state.MethodName1}
+                  </Card.Header>
+
+                  <canvas ref="canvas" width={640} height={480} />
+                </Card>
+              </CardGroup>
+            </Container>
           </Col>
         </Row>
       </Container>
