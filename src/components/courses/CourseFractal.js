@@ -321,8 +321,8 @@ export default class Setting extends React.Component {
   render() {
     return (
       <Container fluid style={{ paddingTop: "75px" }}>
-        <Row>
-          <Col lg="2">
+        <Row className="justify-content-md-center">
+          <Col xs lg="2">
             <CardGroup>
               <Card border="secondary" style={{ width: "0rem" }}>
                 <Card.Header align="center">Setting</Card.Header>
@@ -432,7 +432,7 @@ export default class Setting extends React.Component {
               </Card>
             </CardGroup>
           </Col>
-          <Col lg="5">
+          <Col xs lg="5">
             <Container >
               <CardGroup>
                 <Card border="secondary" style={{ width: "0rem" }}>
