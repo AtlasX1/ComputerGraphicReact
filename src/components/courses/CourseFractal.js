@@ -129,9 +129,9 @@ var c_width;
 var c_height;
 
 // changes zoom factor and let zoom start
-function zoom(e) {
+function zoom(zoomIn) {
   stop_zooming = false;
-  zoom_factor = e.buttons & 1 ? 0.99 : 1.01;
+  zoom_factor = zoomIn ? 0.99 : 1.01;
 }
 
 // changes uniform values and requests animation frame
@@ -201,12 +201,14 @@ export default class Setting extends React.Component {
       target_zoom_center[1] =
         zoom_center[1] + zoom_size / 2.0 - y_part * zoom_size;
       console.log(target_zoom_center);
-      zoom(e);
+
+      if (e.buttons & 1) zoom(true);
+
       renderFrame();
       return true;
     };
     canvas_element.oncontextmenu = () => {
-      return false;
+      return true;
     };
     canvas_element.onmouseup = () => {
       stop_zooming = true;
@@ -374,9 +376,9 @@ export default class Setting extends React.Component {
   }
   setZoom(sign) {
     if (sign === "+") {
-      zoom({ buttons: 1 });
+      zoom(true);
     } else if (sign === "-") {
-      zoom({ buttons: 0 });
+      zoom(false);
     }
     renderFrame();
   }
