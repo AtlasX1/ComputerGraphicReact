@@ -30,13 +30,36 @@ uniform int u_maxIterations;
 uniform int u_fractalType;
 uniform vec2 u_julia_c_value;
 uniform vec2 u_size;
+uniform int u_colorScheme;
+
+vec2 prod(vec2 left, vec2 right) {
+  float r = left.x * right.x - left.y * right.y;
+  float i = left.x * right.y + left.y * right.x;
+  return vec2(r, i);
+}
+
+vec2 prod(vec2 left, vec2 right, vec2 third) {
+  return prod(prod(left, right), third);
+}
+
+vec2 pow(vec2 x, int n) {
+  vec2 result = vec2(x);
+  for(int i = 1; i < 10; ++i) {
+    if(i >= n) {
+      break;
+    }
+    result = prod(result, x);
+  }
+
+  return result;
+}
 
 vec2 f(vec2 x, vec2 c) {
   if (u_fractalType == 0) {
-    return mat2(x,-x.y,x.x)*x + c;
+    return pow(x, 2) + c;
   }
   else {
-    return mat2(x,-x.y,x.x)*x + u_julia_c_value;
+    return pow(x, 2) + u_julia_c_value;
   }
 }
 vec3 palette(float t, vec3 a, vec3 b, vec3 c, vec3 d) {
@@ -65,7 +88,15 @@ void main() {
       break;
     }
   }
-  gl_FragColor = escaped ? vec4(palette(float(iterations)/float(u_maxIterations), vec3(0.0),vec3(0.59,0.55,0.75),vec3(0.1, 0.2, 0.3),vec3(0.75)),1.0) : vec4(vec3(0.85, 0.99, 1.0), 1.0);
+  vec3 color = vec3(147, 3, 96);
+  if(u_colorScheme == 0) 
+    gl_FragColor = escaped 
+      ? vec4(palette(float(iterations)/float(u_maxIterations), vec3(0.0),vec3(0.59,0.55,0.75),vec3(0.1, 0.2, 0.3),vec3(0.75)),1.0) 
+      : vec4(vec3(0.85, 0.99, 1.0), 1.0);
+  else
+    gl_FragColor = escaped 
+      ? vec4(color*float(iterations)/float(u_maxIterations),1.0) 
+      : vec4(vec3(0.85, 0.99, 1.0), 1.0);
 }`;
 
 // holding info about current frame
@@ -77,6 +108,8 @@ var zoom_factor = 1.0;
 // user input
 var max_iterations = 1000;
 var autoIter = false;
+// 0 - cold ice, 1 - red
+var colorSchemeType = 0;
 // input c value for julia
 var c = [0.0, 0.0];
 // 0 - mandelbrot, 1 - julia
@@ -90,6 +123,7 @@ var max_iterations_uniform;
 var fractal_type_uniform;
 var julia_value_uniform;
 var size_uniform;
+var color_scheme_uniform;
 // canvas size
 var c_width;
 var c_height;
@@ -110,6 +144,7 @@ function renderFrame() {
   gl.uniform2f(julia_value_uniform, c[0], c[1]);
   gl.uniform2f(size_uniform, c_width, c_height);
   gl.uniform1i(fractal_type_uniform, type);
+  gl.uniform1i(color_scheme_uniform, colorSchemeType);
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
@@ -132,15 +167,11 @@ function renderFrame() {
 
     window.requestAnimationFrame(renderFrame);
   }
-  console.log("Iterations: " + max_iterations);
-  console.log("Width: " + c_width + "; height: " + c_height);
 }
 
 window.onresize = () => {
   c_width = gl.canvas.width;
   c_height = gl.canvas.height;
-
-  console.log("Width: " + c_width + "; height: " + c_height);
 };
 
 export default class Setting extends React.Component {
@@ -151,7 +182,7 @@ export default class Setting extends React.Component {
       CurrentMethodName: Mandelbrot,
       SecondMethodName: Julia,
       AutoZoomIter: false,
-      ColoureScheme: "Blue gradient",
+      ColoureScheme: "Cold ice",
       JuliaConstantValue: 0
     };
   }
@@ -236,6 +267,10 @@ export default class Setting extends React.Component {
       "u_julia_c_value"
     );
     size_uniform = gl.getUniformLocation(mandelbrot_program, "u_size");
+    color_scheme_uniform = gl.getUniformLocation(
+      mandelbrot_program,
+      "u_colorScheme"
+    );
   }
 
   // ================== Settings setters ======================================
@@ -332,11 +367,8 @@ export default class Setting extends React.Component {
     }
   }
   setIterations() {
-    let tmp1 = this.state.AutoZoomIter;
-    tmp1 = tmp1 ? false : true;
-    this.setState({ AutoZoomIter: tmp1 }, () => {
-      console.log(this.state.AutoZoomIter);
-      autoIter = tmp1;
+    this.setState({ AutoZoomIter: !this.state.AutoZoomIter }, () => {
+      autoIter = this.state.AutoZoomIter;
       renderFrame();
     });
   }
@@ -395,7 +427,7 @@ export default class Setting extends React.Component {
                     <InputGroup className="mb-3" block>
                       <FormControl
                         type="number"
-                        step="1"
+                        step="10"
                         min="0"
                         value={this.state.MaxIteration}
                         onChange={V => {
