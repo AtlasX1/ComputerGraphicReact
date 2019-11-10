@@ -17,6 +17,8 @@ import { Complex, re, im } from "mathjs";
 const Julia = "Julia set";
 const Mandelbrot = "Mandelbrot set";
 
+const Ice = "Cold ice";
+const Red = "Red";
 const vs_shader = `precision highp float;
 attribute vec2 a_Position;
 void main() {
@@ -182,7 +184,8 @@ export default class Setting extends React.Component {
       CurrentMethodName: Mandelbrot,
       SecondMethodName: Julia,
       AutoZoomIter: false,
-      ColoureScheme: "Cold ice",
+      CurrentScheme: Ice,
+      SecondScheme: Red,
       JuliaConstantValue: 0
     };
   }
@@ -338,6 +341,33 @@ export default class Setting extends React.Component {
       renderFrame();
     });
   }
+  setScheme() {
+    if (this.state.CurrentScheme === Ice && this.state.SecondScheme === Red) {
+      this.setState(
+        {
+          CurrentScheme: Red,
+          SecondScheme: Ice
+        },
+        () => {
+          console.log(this.state.CurrentScheme);
+          colorSchemeType = 1;
+          renderFrame();
+        }
+      );
+    } else {
+      this.setState(
+        {
+          CurrentScheme: Ice,
+          SecondScheme: Red
+        },
+        () => {
+          console.log(this.state.CurrentScheme);
+          colorSchemeType = 0;
+          renderFrame();
+        }
+      );
+    }
+  }
   setMethod() {
     if (
       this.state.CurrentMethodName === Mandelbrot &&
@@ -453,11 +483,17 @@ export default class Setting extends React.Component {
                     Colour scheme:
                     <Dropdown block>
                       <Dropdown.Toggle block variant="outline-secondary">
-                        {this.state.ColoureScheme}
+                        {this.state.CurrentScheme}
                       </Dropdown.Toggle>
+
                       <Dropdown.Menu block>
-                        <Dropdown.Item block onClick={() => {}}>
-                          {this.state.ColoureScheme}
+                        <Dropdown.Item
+                          block
+                          onClick={() => {
+                            this.setScheme();
+                          }}
+                        >
+                          {this.state.SecondScheme}
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
