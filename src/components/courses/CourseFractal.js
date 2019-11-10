@@ -12,7 +12,8 @@ import {
   Dropdown,
   ListGroup
 } from "react-bootstrap";
-import CanvasFractal from "./canvas/CanvasFractal.js";
+import { Complex, re, im } from "mathjs";
+
 const Julia = "Julia set";
 const Mandelbrot = "Mandelbrot set";
 
@@ -67,32 +68,42 @@ void main() {
   gl_FragColor = escaped ? vec4(palette(float(iterations)/float(u_maxIterations), vec3(0.0),vec3(0.59,0.55,0.75),vec3(0.1, 0.2, 0.3),vec3(0.75)),1.0) : vec4(vec3(0.85, 0.99, 1.0), 1.0);
 }`;
 
+// holding info about current frame
 var zoom_center = [0.0, 0.0];
 var target_zoom_center = [0.0, 0.0];
 var zoom_size = 1.0;
 var stop_zooming = true;
 var zoom_factor = 1.0;
+// user input
 var max_iterations = 1000;
 var autoIter = false;
+// input c value for julia
+var c = [0.0, 0.0];
+// 0 - mandelbrot, 1 - julia
+var type = 0;
+// gl canvas context
 var gl;
+// uniform location
 var zoom_center_uniform;
 var zoom_size_uniform;
 var max_iterations_uniform;
 var fractal_type_uniform;
 var julia_value_uniform;
 var size_uniform;
+// canvas size
 var c_width;
 var c_height;
-var c = [-0.4, 0.6];
-var type = 0;
 
+// changes zoom factor and let zoom start
 function zoom(e) {
   stop_zooming = false;
   zoom_factor = e.buttons & 1 ? 0.99 : 1.01;
 }
 
-var renderFrame = function() {
-  /* bind inputs & render frame */
+// changes uniform values and requests animation frame
+function renderFrame() {
+  const MinAutoFrames = 1000;
+
   gl.uniform2f(zoom_center_uniform, zoom_center[0], zoom_center[1]);
   gl.uniform1f(zoom_size_uniform, zoom_size);
   gl.uniform1i(max_iterations_uniform, max_iterations);
@@ -103,31 +114,33 @@ var renderFrame = function() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
 
-  /* handle zoom */
   if (!stop_zooming) {
-    console.log("zooming: " + max_iterations);
-    /* zooming in progress */
-    /* gradually decrease number of iterations, reducing detail, to speed up rendering */
     if (autoIter) {
       max_iterations -= 10;
-      if (max_iterations < 50) max_iterations = 50;
+      if (max_iterations < 50) {
+        max_iterations = 50;
+      }
     }
-    /* zoom in */
-    zoom_size *= zoom_factor;
 
-    /* move zoom center towards target */
+    zoom_size *= zoom_factor;
     zoom_center[0] += 0.1 * (target_zoom_center[0] - zoom_center[0]);
     zoom_center[1] += 0.1 * (target_zoom_center[1] - zoom_center[1]);
 
     window.requestAnimationFrame(renderFrame);
-  } else if (max_iterations < 500) {
-    console.log("stop zooming: " + max_iterations);
-    if (autoIter) {
-      /* once zoom operation is complete, bounce back to normal detail level */
-      max_iterations += 10;
-    }
+  } else if (autoIter && max_iterations < MinAutoFrames) {
+    max_iterations += 10;
+
     window.requestAnimationFrame(renderFrame);
   }
+  console.log("Iterations: " + max_iterations);
+  console.log("Width: " + c_width + "; height: " + c_height);
+}
+
+window.onresize = () => {
+  c_width = gl.canvas.width;
+  c_height = gl.canvas.height;
+
+  console.log("Width: " + c_width + "; height: " + c_height);
 };
 
 export default class Setting extends React.Component {
@@ -135,36 +148,58 @@ export default class Setting extends React.Component {
     super(props);
     this.state = {
       MaxIteration: max_iterations,
-      MethodName1: Mandelbrot,
-      MethodName2: Julia,
-      AutoMaxIter: false,
+      CurrentMethodName: Mandelbrot,
+      SecondMethodName: Julia,
+      AutoZoomIter: false,
       ColoureScheme: "Blue gradient",
-      C_Vlue: 0,
-      Zoom: 50
+      JuliaConstantValue: 0
     };
   }
 
   componentDidMount() {
+    // gl context settings, shader compiling
+    this.InitGlContext();
+
+    let canvas_element = this.refs.canvas;
+
+    canvas_element.onmousedown = function(e) {
+      var x_part = e.offsetX / canvas_element.width;
+      var y_part = e.offsetY / canvas_element.height;
+      target_zoom_center[0] =
+        zoom_center[0] - zoom_size / 2.0 + x_part * zoom_size;
+      target_zoom_center[1] =
+        zoom_center[1] + zoom_size / 2.0 - y_part * zoom_size;
+      console.log(target_zoom_center);
+      zoom(e);
+      renderFrame();
+      return true;
+    };
+    canvas_element.oncontextmenu = () => {
+      return false;
+    };
+    canvas_element.onmouseup = () => {
+      stop_zooming = true;
+    };
+
+    // display initial frame
+    renderFrame();
+  }
+
+  InitGlContext() {
     var canvas_element = this.refs.canvas;
     gl = canvas_element.getContext("webgl");
     c_width = canvas_element.width;
     c_height = canvas_element.height;
-
-    console.log(this);
-
     var vertex_shader_src = vs_shader;
     var fragment_shader_src = fs_shader;
     var vertex_shader = gl.createShader(gl.VERTEX_SHADER);
     var fragment_shader = gl.createShader(gl.FRAGMENT_SHADER);
-
     gl.shaderSource(vertex_shader, vertex_shader_src);
     gl.shaderSource(fragment_shader, fragment_shader_src);
-
     gl.compileShader(vertex_shader);
     console.log(gl.getShaderInfoLog(vertex_shader));
     gl.compileShader(fragment_shader);
     console.log(gl.getShaderInfoLog(fragment_shader));
-
     var mandelbrot_program = gl.createProgram();
     gl.attachShader(mandelbrot_program, vertex_shader);
     gl.attachShader(mandelbrot_program, fragment_shader);
@@ -177,14 +212,12 @@ export default class Setting extends React.Component {
       new Float32Array([-1, -1, 3, -1, -1, 3]),
       gl.STATIC_DRAW
     );
-
     var position_attrib_location = gl.getAttribLocation(
       mandelbrot_program,
       "a_Position"
     );
     gl.enableVertexAttribArray(position_attrib_location);
     gl.vertexAttribPointer(position_attrib_location, 2, gl.FLOAT, false, 0, 0);
-
     zoom_center_uniform = gl.getUniformLocation(
       mandelbrot_program,
       "u_zoomCenter"
@@ -203,45 +236,22 @@ export default class Setting extends React.Component {
       "u_julia_c_value"
     );
     size_uniform = gl.getUniformLocation(mandelbrot_program, "u_size");
-
-    /* input handling */
-    canvas_element.onmousedown = function(e) {
-      var x_part = e.offsetX / canvas_element.width;
-      var y_part = e.offsetY / canvas_element.height;
-      target_zoom_center[0] =
-        zoom_center[0] - zoom_size / 2.0 + x_part * zoom_size;
-      target_zoom_center[1] =
-        zoom_center[1] + zoom_size / 2.0 - y_part * zoom_size;
-      console.log(target_zoom_center);
-      zoom(e);
-      renderFrame();
-      return true;
-    };
-    canvas_element.oncontextmenu = function(e) {
-      return false;
-    };
-    canvas_element.onmouseup = function(e) {
-      stop_zooming = true;
-    };
-
-    /* display initial frame */
-    renderFrame();
   }
+
+  // ================== Settings setters ======================================
 
   valueC = name => {
     if (name.data === Julia) {
       return (
         <ListGroup.Item>
           {" "}
-          Value C:
+          C value (e.g. -0.4 + 0.6i):
           <InputGroup block>
             <FormControl
-              type="number"
-              step="0.5"
-              min="0"
-              value={this.state.C_Vlue}
+              type="string"
+              value={this.state.JuliaConstantValue}
               onChange={V => {
-                this.setVlueC(V);
+                this.setJuliaConstant(V);
               }}
             />
           </InputGroup>
@@ -251,13 +261,38 @@ export default class Setting extends React.Component {
       return null;
     }
   };
+
   clickRestore() {
-    alert("Restore");
-  }
-  setVlueC(V) {
-    this.setState({ C_Vlue: V.target.value }, () => {
-      console.log(this.state.C_Vlue);
+    zoom_center = [0.0, 0.0];
+    target_zoom_center = [0.0, 0.0];
+    zoom_size = 1.0;
+    stop_zooming = true;
+    zoom_factor = 1.0;
+    max_iterations = 1000;
+    autoIter = false;
+    c = [0.0, 0.0];
+    this.setState({
+      MaxIteration: max_iterations,
+      JuliaConstantValue: 0
     });
+    renderFrame();
+  }
+  setJuliaConstant(V) {
+    try {
+      if (V.target != null) {
+        var complex = new Complex(V.target.value);
+        console.log(c);
+        c[0] = re(complex);
+        c[1] = im(complex);
+        renderFrame();
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      this.setState({ JuliaConstantValue: V.target.value }, () => {
+        console.log(this.state.JuliaConstantValue);
+      });
+    }
   }
   setMaxIterations(V) {
     this.setState({ MaxIteration: V.target.value }, () => {
@@ -268,16 +303,16 @@ export default class Setting extends React.Component {
   }
   setMethod() {
     if (
-      this.state.MethodName1 === Mandelbrot &&
-      this.state.MethodName2 === Julia
+      this.state.CurrentMethodName === Mandelbrot &&
+      this.state.SecondMethodName === Julia
     ) {
       this.setState(
         {
-          MethodName1: Julia,
-          MethodName2: Mandelbrot
+          CurrentMethodName: Julia,
+          SecondMethodName: Mandelbrot
         },
         () => {
-          console.log(this.state.MethodName1);
+          console.log(this.state.CurrentMethodName);
           type = 1;
           renderFrame();
         }
@@ -285,11 +320,11 @@ export default class Setting extends React.Component {
     } else {
       this.setState(
         {
-          MethodName1: Mandelbrot,
-          MethodName2: Julia
+          CurrentMethodName: Mandelbrot,
+          SecondMethodName: Julia
         },
         () => {
-          console.log(this.state.MethodName1);
+          console.log(this.state.CurrentMethodName);
           type = 0;
           renderFrame();
         }
@@ -297,27 +332,25 @@ export default class Setting extends React.Component {
     }
   }
   setIterations() {
-    let tmp1 = this.state.AutoMaxIter;
+    let tmp1 = this.state.AutoZoomIter;
     tmp1 = tmp1 ? false : true;
-    this.setState({ AutoMaxIter: tmp1 }, () => {
-      console.log(this.state.AutoMaxIter);
+    this.setState({ AutoZoomIter: tmp1 }, () => {
+      console.log(this.state.AutoZoomIter);
       autoIter = tmp1;
       renderFrame();
     });
   }
   setZoom(sign) {
-    let Zoom = this.state.Zoom;
-
     if (sign === "+") {
       zoom({ buttons: 1 });
     } else if (sign === "-") {
       zoom({ buttons: 0 });
     }
-    this.setState({ Zoom: Zoom }, () => {
-      console.log(this.state.Zoom);
-      renderFrame();
-    });
+    renderFrame();
   }
+
+  // ================== End Setters ===========================================
+
   render() {
     return (
       <Container fluid style={{ paddingTop: "75px" }}>
@@ -341,7 +374,7 @@ export default class Setting extends React.Component {
                     <br />
                     <Dropdown block>
                       <Dropdown.Toggle block variant="outline-secondary">
-                        {this.state.MethodName1}
+                        {this.state.CurrentMethodName}
                       </Dropdown.Toggle>
 
                       <Dropdown.Menu block>
@@ -351,14 +384,14 @@ export default class Setting extends React.Component {
                             this.setMethod();
                           }}
                         >
-                          {this.state.MethodName2}
+                          {this.state.SecondMethodName}
                         </Dropdown.Item>
                       </Dropdown.Menu>
                     </Dropdown>
                   </ListGroup.Item>
                   {/* ======================================================================= */}
                   <ListGroup.Item>
-                    Max itrations:
+                    Max iterations:
                     <InputGroup className="mb-3" block>
                       <FormControl
                         type="number"
@@ -373,8 +406,8 @@ export default class Setting extends React.Component {
                     <Form.Group>
                       <Form.Check
                         type="checkbox"
-                        label="Auto max iterations"
-                        defaultChecked={this.state.AutoMaxIter}
+                        label="Auto zoom iterations"
+                        defaultChecked={this.state.AutoZoomIter}
                         onChange={() => {
                           this.setIterations();
                         }}
@@ -426,18 +459,18 @@ export default class Setting extends React.Component {
                     </Row>
                   </ListGroup.Item>
                   {/* ======================================================================= */}
-                  <this.valueC data={this.state.MethodName1} />
+                  <this.valueC data={this.state.CurrentMethodName} />
                   {/* ======================================================================= */}
                 </ListGroup>
               </Card>
             </CardGroup>
           </Col>
           <Col xs lg="5">
-            <Container >
+            <Container>
               <CardGroup>
                 <Card border="secondary" style={{ width: "0rem" }}>
                   <Card.Header align="center">
-                    {this.state.MethodName1}
+                    {this.state.CurrentMethodName}
                   </Card.Header>
 
                   <canvas ref="canvas" width={640} height={480} />
