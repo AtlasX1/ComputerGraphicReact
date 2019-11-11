@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoImg from "./CG-Logo-2.png";
+import LogoImg from "./logo.png";
 import { Alert, Button, Row, Col, Figure, Navbar, Nav } from "react-bootstrap";
 import HelpFractal from "./components/help/HelpFractal.js";
 import HelpColor from "./components/help/HelpColor.js";
