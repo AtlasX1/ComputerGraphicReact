@@ -312,8 +312,7 @@ export default class Setting extends React.Component {
     autoIter = false;
     c = [0.0, 0.0];
     this.setState({
-      MaxIteration: max_iterations,
-      JuliaConstantValue: 0
+      MaxIteration: max_iterations
     });
     renderFrame();
   }
@@ -405,6 +404,10 @@ export default class Setting extends React.Component {
     });
   }
   setZoom(sign) {
+    if (stop_zooming == false) {
+      stop_zooming = true;
+      return;
+    }
     if (sign === "+") {
       zoom(true);
     } else if (sign === "-") {
