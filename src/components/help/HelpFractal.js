@@ -25,9 +25,8 @@ const ModalDialog = props => {
       <Modal.Body>
         <h4>Instruction</h4>
         <p>
-          Restore defaults - sets zoom center, zoom size and Julia constant
-          value to default values. Zoom center = [0;0], zoom size = 1.0 (no
-          zoom), Julia constant value = 0 + 0i.
+          Restore defaults - sets zoom center and zoom size to default values.
+          Zoom center = [0;0], zoom size = 1.0 (no zoom).
         </p>
         <p>
           Mandelbrot set / Julia set dropdown changes rendering fractal type to
@@ -48,15 +47,16 @@ const ModalDialog = props => {
           form.{" "}
         </p>
         <p>
-          '+' and '-' buttons turn on zooming. To stop zooming process press
-          left mouse button anywhere on the fractal canvas.
+          '+' and '-' buttons turn on zooming. To stop zooming process press any
+          zoom button again or click left mouse button anywhere on the fractal
+          canvas.
         </p>
         <p>
           You can also zoom by clicking left mouse button on the fractal canvas.
           Zoom size changes according to the time left mouse button has been
           held down.
         </p>
-        <p>To save and download press right mouse button on fractal canvas.</p>
+        <p>To save and download clicl right mouse button on fractal canvas.</p>
       </Modal.Body>
       <Modal.Footer>
         <Button onClick={props.onHide} variant="secondary">
