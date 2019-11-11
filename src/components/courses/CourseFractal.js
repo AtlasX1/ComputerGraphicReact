@@ -18,7 +18,7 @@ const Julia = "Julia set";
 const Mandelbrot = "Mandelbrot set";
 
 const Ice = "Cold ice";
-const Red = "Red";
+const Green = "Green";
 const vs_shader = `precision highp float;
 attribute vec2 a_Position;
 void main() {
@@ -90,15 +90,20 @@ void main() {
       break;
     }
   }
-  vec3 color = vec3(147, 3, 96);
+  vec4 color = vec4(0.0, 0.0, 0.0, 1.0);
+  color.r = abs((0.7 - 1.0)) * 125.0 * float(iterations) / float(u_maxIterations);
+  color.g = abs((0.2 - 1.0)) * 210.0 * float(iterations) / float(u_maxIterations);
+  color.b = abs((0.6 - 1.0)) * 225.0 * float(iterations) / float(u_maxIterations);
+  color.a = 1.0;
+  //vec3 color = vec3(147, 3, 96);
   if(u_colorScheme == 0) 
     gl_FragColor = escaped 
       ? vec4(palette(float(iterations)/float(u_maxIterations), vec3(0.0),vec3(0.59,0.55,0.75),vec3(0.1, 0.2, 0.3),vec3(0.75)),1.0) 
       : vec4(vec3(0.85, 0.99, 1.0), 1.0);
   else
     gl_FragColor = escaped 
-      ? vec4(color*float(iterations)/float(u_maxIterations),1.0) 
-      : vec4(vec3(0.85, 0.99, 1.0), 1.0);
+      ? color 
+      : vec4(0.05, 0.05, 0.05, 1.0);
 }`;
 
 // holding info about current frame
@@ -185,7 +190,7 @@ export default class Setting extends React.Component {
       SecondMethodName: Julia,
       AutoZoomIter: false,
       CurrentScheme: Ice,
-      SecondScheme: Red,
+      SecondScheme: Green,
       JuliaConstantValue: 0
     };
   }
@@ -310,7 +315,6 @@ export default class Setting extends React.Component {
     zoom_factor = 1.0;
     max_iterations = 1000;
     autoIter = false;
-    c = [0.0, 0.0];
     this.setState({
       MaxIteration: max_iterations
     });
@@ -341,10 +345,10 @@ export default class Setting extends React.Component {
     });
   }
   setScheme() {
-    if (this.state.CurrentScheme === Ice && this.state.SecondScheme === Red) {
+    if (this.state.CurrentScheme === Ice && this.state.SecondScheme === Green) {
       this.setState(
         {
-          CurrentScheme: Red,
+          CurrentScheme: Green,
           SecondScheme: Ice
         },
         () => {
@@ -357,7 +361,7 @@ export default class Setting extends React.Component {
       this.setState(
         {
           CurrentScheme: Ice,
-          SecondScheme: Red
+          SecondScheme: Green
         },
         () => {
           console.log(this.state.CurrentScheme);
@@ -436,7 +440,7 @@ export default class Setting extends React.Component {
                         this.clickRestore();
                       }}
                     >
-                      Restore defaults
+                      Restore zoom size and iterations
                     </Button>
                     <br />
                     <Dropdown block>
