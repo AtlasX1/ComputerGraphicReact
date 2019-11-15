@@ -4,27 +4,28 @@ import { Card, Row, Col, Figure, Button } from "react-bootstrap";
 
 const CourseInfo = props => {
   return (
-    <Row style={{ paddingTop: 100, paddingBottom: 50 }}>
-      <Col>
+    <Row style={{ backgroundColor:"#fff",  padding: "220px 0"}}>
+      <div style={{display: "flex", alignItems:"center", justifyContent: "center", backgroundColor: "#002850", width: "700px", height: "700px", borderRadius: "30px"}}>
         <Figure>
           <Figure.Image
-            width={1440}
-            height={600}
-            alt={props.Logo}
+            style={{borderRadius:"60px"}}
+            width={500}
+            height={375}
+            alt={props.Logo}  
             src={props.Img}
           />
         </Figure>
-      </Col>
-      <Col>
-        <Card bsStyle="tabs" className="custom-card-courseInfo">
+      </div>
+      <Col style={{display: "flex",alignItems:"center", justifyContent: "flex-end", textAlign: "right"}}>
+        <Card bsStyle="tabs" className="custom-card-courseInfo" style={{width: "640px", margin:0 }} >
           <Card.Body>
-            <Card.Title className="custom-card-courseInfo-title">
+            <Card.Title style={{fontSize: "60px"}} className="custom-card-courseInfo-title">
               {props.Title}
             </Card.Title>
-            <Card.Text className="custom-card-courseInfo-text">
+            <Card.Text style={{fontSize: "24px"}} className="custom-card-courseInfo-text">
               {props.Text}
             </Card.Text>
-            <Button variant="outline-dark" href={props.Link}>Go to module</Button>
+            <Button style={{marginTop:"50px", fontSize: "30px"}} variant="outline-dark" href={props.Link}>Go to module</Button>
           </Card.Body>
         </Card>
       </Col>

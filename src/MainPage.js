@@ -24,9 +24,16 @@ import ImgRoma from "./Roma.jpg";
 import ImgSerhiy from "./Serhiy.jpg";
 
 import Sky from "./Sky.jpg";
-import Img2 from "./Image2.png";
+import Img1 from "./Image1.jpg";
+import Img2 from "./Image2.jpg";
 import Img3 from "./Image3.png";
 //----------------------------------------------------------------------------------
+const FontStyle = {
+  color: "#fff",
+  fontSize: "18px",
+  fontFamily: "Font Awesome 5 Brands Regular"
+};
+
 const Pad0 = {
   padding: 0,
   margin: 0
@@ -50,129 +57,124 @@ const BasicExample = () => {
 
 const Home = () => {
   return (
-    <Container
-      fluid
-      style={{ padding: 0, margin: 0, backgroundImage: `url(${Sky})` }}
-    >
+    <Container fluid style={Pad0}>
       <selection id="home" />
-      <Container fluid>
+      <Container fluid style={{height:"1060px", backgroundSize: "1920px 1080px", backgroundImage: `url(${Sky})`}}>
         <br />
 
         <Container
           fluid
-          style={{ paddingBottom: 150, margin: 0, paddingTop: 150 }}
+          style={{marginTop: "150px", width: "1020px", marginBottom: "160px" }}
         >
-          <Card bsStyle="tabs" className="custom-card">
-            <Card.Body className="custom-card-body">
-              <Card.Title
-                className="custom-card-body-title"
-                style={{ fontFamily: "Font Awesome 5 Brands Regular" }}
-              >
-                Computer Graphics
-              </Card.Title>
-              <Card.Text
-                className="custom-card-body-text"
-                style={{ fontFamily: "Font Awesome 5 Brands Regular" }}
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </Card.Text>
-              <Figure style={Pad0}>
+         <h1 align="center" style={{fontFamily: "Font Awesome 5 Brands Regular", color: "#fff", fontSize: "96px"}}>COMPUTER GRAPHICS</h1>
+
+         <Row>
+           <Col>
+           <Figure style={Pad0}>
                 <Figure.Image
-                  width={500}
-                  height={300}
+                  width={550}
+                  height={550}
                   alt="Logo"
                   src={Logo}
-                  style={Pad0}
+                  style={{paddingLeft: 30, marginTop: 40 }}
                 />
               </Figure>
-            </Card.Body>
-          </Card>
+           </Col>
+           <Col style={{display: "flex", justifyContent: "flex-end"}}>
+            <p style={{textAlign: "right", fontSize: "36px",fontFamily: "Font Awesome 5 Brands Regular", width: "378px", color: "#fff", bottom: "60px", position: "absolute"}}>“There are three responses to a piece of design – yes, no, and WOW! 
+              Wow is the one to aim for.”</p>
+            <p style={{textAlign:"right", fontSize: "36px",fontFamily: "Font Awesome 5 Brands Regular", width: "378px", color: "#fff", bottom: 0, position: "absolute"}}>Milton Glaser</p>
+           </Col>
+         </Row>
         </Container>
       </Container>
       {/*----------------------------------------------------------------------------------------------------------------------------------------- */}
       <selection id="FractalArt" />
-      <Container fluid>
+      <Container fluid style={{padding: "0 80px"}}>
         <CourseInfo
-          Img={Img2}
+          Img={Img1}
           Logo="Logo"
           Title="Fractal art"
-          Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-      do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-      elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua."
+          Text="In this module you have an opportunity to build Mandelbrot or Julia fractals, 
+          scale, paint and save them!"
           Link="/CourseFractal"
         />
+        </Container>
         <selection id="ColorModels" />
-        <Row style={{ paddingTop: 100, paddingBottom: 50 }}>
-          <Col>
-            {" "}
-            <Card bsStyle="tabs" className="custom-card-courseInfo">
-              <Card.Body>
-                <Card.Title className="custom-card-courseInfo-title">
-                  Color Models
-                </Card.Title>
-                <Card.Text className="custom-card-courseInfo-text">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna
-                  aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-                  elit, sed do eiusmod tempor incididunt ut labore et dolore
-                  magna aliqua.
-                </Card.Text>
-                <Button variant="outline-dark" href="/CourseColor">
-                  Go to module
-                </Button>
-              </Card.Body>
-            </Card>
+        <Container fluid style={{padding: "0 80px", backgroundColor: "#2F6D92"}}>
+        <Row style={{padding:"220px 30px 220px 0px", display: "flex"}}>      
+          <Col style={{display: "flex", color:"#fff", alignItems:"center"}}>
+            <div style={{width: "640px"}} >
+                <h1 style={{fontSize: "60px"}}>
+                   Color Models
+                </h1>
+                <p style={{fontSize: "24px"}}>
+                In this module you can upload any image, change its color model to HSV, CMYK and back to RGB. 
+                Also you have an opportunity to change brightness of blue color.
+                </p>
+                <Button style={{marginTop:"50px", fontSize: "30px"}} variant="light" href={"/CourseColor"}>Go to module</Button>
+            </div>
           </Col>
-          <Col>
+          <div style={{display: "flex", alignItems:"center", justifyContent: "center", backgroundColor: "#002850", width: "700px", height: "700px", borderRadius: "30px"}}>
             <Figure>
-              <Figure.Image width={1440} height={600} alt="Logo" src={Img3} />
+              <Figure.Image
+                style={{borderRadius:"60px"}}
+                width={500}
+                height={375}
+                alt={"ColorModelLogo"}  
+                src={Img3}
+              />
             </Figure>
-          </Col>
+          </div>
         </Row>
+        </Container>
         <selection id="AffineTransformation" />
+        <Container fluid style={{padding: "0 80px"}}>
         <CourseInfo
           Img={Img2}
           Logo="Logo"
           Title="Affine Transformation"
-          Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-      do eiusmod tempor incididunt ut labore et dolore magna
-      aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing
-      elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua."
+          Text="In this module you can build a square and then with the help of affine 
+          transformation you can move, rotate and scale it."
           Link="/CourseAffine"
         />
-      </Container>
+        </Container>
       {/*----------------------------------------------------------------------------------------------------------------------------------------- */}
 
       <selection id="OurTeam" />
-      <Container>
-        <Container style={{ textAlign: "center", paddingTop: "120px" }}>
-          <h1>Our team</h1>
+      <Container fluid style={{display:"flex", justifyContent: "center", alignItems:"center", height:"1060px", backgroundSize: "1920px 1080px", backgroundImage: `url(${Sky})`}}>
+      <div style={{display: "flex", flexFlow:"column", alignItems:"center", justifyContent: "center", backgroundColor: "#fff", width: "1440px", height: "730px", borderRadius: "30px"}}>
+        <Container style={{ textAlign: "center"}}>
+          <h1 style={{fontSize: "60px"}}>Our team</h1>
         </Container>
 
-        <CardDeck style={{ paddingBottom: "120px", paddingTop: "100px" }}>
+        <Row style={{display:"flex", flexFlow:"row", paddingBottom: "120px", paddingTop: "50px" }}>
           <MemberInfo
-            style={{ width: "18rem" }}
+            style={{ width: "370px",
+                    height: "370px", 
+                    borderWidth: 0 }}
             Img={ImgRoma}
             Name="Моравський Роман"
             Role="Back-end"
           />
           <MemberInfo
-            style={{ width: "18rem" }}
+            style={{ width: "370px",
+                      height: "370px",
+                      borderWidth: 0 }}
             Img={ImgSerhiy}
             Name="Павльо Сергій"
             Role="Front-end"
           />
           <MemberInfo
-            style={{ width: "18rem" }}
+            style={{ width: "370px",
+                      height: "370px",
+                      borderWidth: 0 }}
             Img={ImgVova}
             Name="Морозов Володимир"
             Role="Just good boy"
           />
-        </CardDeck>
+        </Row>
+        </div>
       </Container>
     </Container>
   );

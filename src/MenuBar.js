@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import LogoImg from "./logo.png";
+import LogoImg from "./NavLogo.png";
 import { Alert, Button, Row, Col, Figure, Navbar, Nav } from "react-bootstrap";
 import HelpFractal from "./components/help/HelpFractal.js";
 import HelpColor from "./components/help/HelpColor.js";
@@ -9,8 +9,6 @@ const Pad0 = {
   padding: 0,
   margin: 0
 };
-const ImageUrl =
-  "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Symbol_from_Marvel%27s_The_Avengers_logo.svg/1200px-Symbol_from_Marvel%27s_The_Avengers_logo.svg.png";
 
 const FontStyle = {
   color: "white",
@@ -40,8 +38,8 @@ const Logotype = () => {
         }}
       >
         <Figure.Image
-          width={50}
-          height={50}
+          width={75}
+          height={75}
           alt="Logo"
           src={LogoImg}
           style={Pad0}
@@ -101,7 +99,7 @@ const NavbarMenu = () => {
   ) {
     return (
       <Navbar
-        style={{ backgroundColor: "#002850", height: "64px" }}
+        style={{ backgroundColor: "#002850", height: "87px" }}
         fixed="top"
       >
         <Logotype />
@@ -111,7 +109,7 @@ const NavbarMenu = () => {
   } else {
     return (
       <Navbar
-        style={{ backgroundColor: "#002850", height: "64px" }}
+        style={{ backgroundColor: "#002850", height: "87px" }}
         fixed="top"
       >
         <Logotype />
