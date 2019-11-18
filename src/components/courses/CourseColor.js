@@ -11,77 +11,6 @@ import {
   CardGroup,
   ListGroup
 } from "react-bootstrap";
-var canvas;
-var ctx;
-var orgCanvas;
-var orgCtx;
-var max;
-var min;
-var blueValue;
-
-function readImage() {
-  if (this.files && this.files[0]) {
-    var fileReader = new FileReader();
-
-    fileReader.onload = function(e) {
-      var img = new Image();
-
-      // event handler for changing photo url
-      img.addEventListener("load", function() {
-        let width;
-        let height;
-
-        if (img.width > img.height) {
-          width = canvas.width;
-          height = img.height * (width / img.width);
-        } else {
-          height = canvas.height;
-          width = img.width * (height / img.height);
-        }
-
-        ctx.drawImage(
-          img,
-          canvas.width / 2 - width / 2,
-          canvas.height / 2 - height / 2,
-          width,
-          height
-        );
-
-        orgCtx.drawImage(
-          img,
-          canvas.width / 2 - width / 2,
-          canvas.height / 2 - height / 2,
-          width,
-          height
-        );
-      });
-
-      img.src = e.target.result;
-    };
-
-    fileReader.readAsDataURL(this.files[0]);
-  }
-}
-
-function changeBlueBrightness(blueValue, max, min) {
-  let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-  let orgImgData = orgCtx.getImageData(0, 0, orgCanvas.width, orgCanvas.height);
-
-  let i;
-  for (i = 0; i < imgData.data.length; i += 4) {
-    let orgBlue = orgImgData.data[i + 2];
-    let newBlue;
-
-    if (blueValue >= 0) {
-      newBlue = orgBlue + ((255 - orgBlue) / max) * blueValue;
-    } else {
-      newBlue = orgBlue + (orgBlue / -min) * blueValue;
-    }
-    imgData.data[i + 2] = newBlue;
-  }
-
-  ctx.putImageData(imgData, 0, 0);
-}
 
 function rgbToHsv(r, g, b) {
   r /= 255;
@@ -212,6 +141,9 @@ var imagePreviewUrl;
 var rgbR = [0, 0, 0];
 var hsvR = [0, 0, 0];
 var cmykR = [0, 0, 0, 0];
+var OrgbR = [0, 0, 0];
+var OhsvR = [0, 0, 0];
+var OcmykR = [0, 0, 0, 0];
 var blueValue = 0;
 export default class MenuBar extends React.Component {
   constructor(props) {
@@ -229,7 +161,10 @@ export default class MenuBar extends React.Component {
       imagePreviewUrl,
       rgbR,
       hsvR,
-      cmykR
+      cmykR,
+      OrgbR,
+      OhsvR,
+      OcmykR
     };
   }
 
@@ -341,7 +276,7 @@ export default class MenuBar extends React.Component {
     let rgb = ctx.getImageData(ox, oy, 1, 1).data;
     let hsv = rgbToHsv(rgb[0], rgb[1], rgb[2]);
     let cmyk = rgbToCmyk(rgb[0], rgb[1], rgb[2]);
-    this.setState({ rgbR: [...rgb], hsvR: [...hsv], cmykR: [...cmyk] });
+    this.setState({ OrgbR: [...rgb], OhsvR: [...hsv], OcmykR: [...cmyk] });
   }
   findPos = obj => {
     var curleft = 0,
@@ -420,6 +355,20 @@ export default class MenuBar extends React.Component {
                         {this.state.cmykR[1].toFixed(2)},{" "}
                         {this.state.cmykR[2].toFixed(2)},{" "}
                         {this.state.cmykR[3].toFixed(2)} )
+                        <br/>
+                        Original:
+                        <br/>
+                        rgb( {this.state.OrgbR[0]}, {this.state.OrgbR[1]},{" "}
+                        {this.state.OrgbR[2]} )
+                        <br />
+                        hsv( {this.state.OhsvR[0].toFixed(2)},{" "}
+                        {this.state.OhsvR[1].toFixed(2)},{" "}
+                        {this.state.OhsvR[2].toFixed(2)} )
+                        <br />
+                        cmyk( {this.state.OcmykR[0].toFixed(2)},{" "}
+                        {this.state.OcmykR[1].toFixed(2)},{" "}
+                        {this.state.OcmykR[2].toFixed(2)},{" "}
+                        {this.state.OcmykR[3].toFixed(2)} )
                       </p>
                     </div>
                   </ListGroup.Item>
