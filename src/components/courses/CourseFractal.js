@@ -176,10 +176,10 @@ function renderFrame() {
   }
 }
 
-window.onresize = () => {
-  c_width = gl.canvas.width;
-  c_height = gl.canvas.height;
-};
+// window.onresize = () => {
+//   c_width = gl.canvas.width;
+//   c_height = gl.canvas.height;
+// };
 
 export default class Setting extends React.Component {
   constructor(props) {
