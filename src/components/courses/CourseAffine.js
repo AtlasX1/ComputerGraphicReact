@@ -1,11 +1,8 @@
 import React from "react";
 import {
-  Alert,
   Button,
   Row,
   Col,
-  Figure,
-  Navbar,
   Card,
   Container,
   CardGroup,
@@ -17,107 +14,278 @@ export default class MenuBar extends React.Component {
     super(props);
 
     this.state = {
-      valAX: 0,
-      valAY: 0,
-      valBX: 100,
-      valBY: 100,
-      angle: 0,
-      kof: 1
+      upperLeftX: 0.0,
+      upperLeftY: 40.0,
+      bottomRightX: 40.0,
+      bottomRightY: 0.0,
+      upperRight: [40.0, 40.0],
+      bottomLeft: [0.0, 0.0],
+      rotateAngle: 0.0,
+      scaleCoef: 1.0,
+      scaleAndRotateAroundItself: false
     };
   }
+
+  componentDidMount() {
+    this.drawCoordinateLines();
+  }
+
   clearCanvas = () => {
     let canvas = this.refs.canvas;
-    const ctx = canvas.getContext('2d');
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.clearRect(0,0, canvas.width, canvas.height);
+    const ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    this.updatePointInputs();
   };
-  drawRect = () => {
+
+  drawCoordinateLines = () => {
     let canvas = this.refs.canvas;
-    const ctx = canvas.getContext('2d');
-    //  ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.fillRect(this.state.valAX, this.state.valAY, (this.state.valBX - this.state.valAX), (this.state.valBY - this.state.valAY));
+    let ctx = canvas.getContext("2d");
+
+    let offsetX = canvas.width / 2;
+    let offsetY = canvas.width / 2;
+
+    ctx.strokeStyle = "black";
+
+    ctx.beginPath();
+    ctx.setLineDash([5, 15]);
+    ctx.moveTo(0, offsetY);
+    ctx.lineTo(canvas.width, offsetY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.setLineDash([5, 15]);
+    ctx.moveTo(offsetX, 0);
+    ctx.lineTo(offsetX, canvas.height);
+    ctx.stroke();
   };
-  rotateRect = () => {
-    let canvas = this.refs.canvas;
-    const ctx = canvas.getContext('2d'); 
-    ctx.translate(this.state.valBX - (this.state.valBX - this.state.valAX)/2,this.state.valBY - (this.state.valBY - this.state.valAY)/2);
-    ctx.rotate(this.state.angle * Math.PI/180);
-    ctx.fillRect(-((this.state.valBX - this.state.valAX)/2), -((this.state.valBY - this.state.valAY)/2), (this.state.valBX - this.state.valAX), (this.state.valBY - this.state.valAY));
-    ctx.restore();
-  };
-  scaleRect = () => {
-    let canvas = this.refs.canvas;
-    const ctx = canvas.getContext('2d'); 
-    ctx.translate(this.state.valAX,this.state.valAY);
-    ctx.scale(this.state.kof, this.state.kof);
-    ctx.restore();
-  };
-  buildRect = () => {
+
+  drawSquare = () => {
     this.clearCanvas();
-    this.scaleRect();
-    this.rotateRect();
+    this.drawCoordinateLines();
+
+    let canvas = this.refs.canvas;
+    let ctx = canvas.getContext("2d");
+
+    let offsetX = canvas.width / 2;
+    let offsetY = canvas.height / 2;
+
+    let leftUpperX = offsetX + this.state.upperLeftX;
+    let leftUpperY = offsetY - this.state.upperLeftY;
+
+    let bottomLeftX = offsetX + this.state.bottomLeft[0];
+    let bottomLeftY = offsetY - this.state.bottomLeft[1];
+
+    let bottomRightX = offsetX + this.state.bottomRightX;
+    let bottomRightY = offsetY - this.state.bottomRightY;
+
+    let upperRightX = offsetX + this.state.upperRight[0];
+    let upperRightY = offsetY - this.state.upperRight[1];
+
+    ctx.strokeStyle = "red";
+    ctx.setLineDash([]);
+
+    ctx.beginPath();
+    ctx.moveTo(leftUpperX, leftUpperY);
+    ctx.lineTo(bottomLeftX, bottomLeftY);
+    ctx.lineTo(bottomRightX, bottomRightY);
+    ctx.lineTo(upperRightX, upperRightY);
+    ctx.closePath();
+    ctx.stroke();
+
+    this.updatePointInputs();
+
+    console.log("upperLeftX  " + this.state.upperLeftX);
+    console.log("upperLeftY  " + this.state.upperLeftY);
+    console.log("bottomRightX  " + this.state.bottomRightX);
+    console.log("bottomRightY  " + this.state.bottomRightY);
   };
+
+  addValueToPoints = (dx, dy) => {
+    this.setState(
+      {
+        upperLeftX: this.state.upperLeftX + dx,
+        upperLeftY: this.state.upperLeftY + dy,
+        bottomRightX: this.state.bottomRightX + dx,
+        bottomRightY: this.state.bottomRightY + dy,
+        upperRight: [
+          this.state.upperRight[0] + dx,
+          this.state.upperRight[1] + dy
+        ],
+        bottomLeft: [
+          this.state.bottomLeft[0] + dx,
+          this.state.bottomLeft[1] + dy
+        ]
+      },
+      () => {
+        this.drawSquare();
+      }
+    );
+  };
+
+  scalePoints = (cfX, cfY) => {
+    this.setState(
+      {
+        upperLeftX: this.state.upperLeftX * cfX,
+        upperLeftY: this.state.upperLeftY * cfY,
+        bottomRightX: this.state.bottomRightX * cfX,
+        bottomRightY: this.state.bottomRightY * cfY,
+        upperRight: [
+          this.state.upperRight[0] * cfX,
+          this.state.upperRight[1] * cfY
+        ],
+        bottomLeft: [
+          this.state.bottomLeft[0] * cfX,
+          this.state.bottomLeft[1] * cfY
+        ]
+      },
+      () => {
+        this.drawSquare();
+      }
+    );
+  };
+
+  rotateByAngle = angle => {
+    let upperLeft = this.rotatePoint(
+      {
+        x: this.state.upperLeftX,
+        y: this.state.upperLeftY
+      },
+      angle
+    );
+
+    let bottomRight = this.rotatePoint(
+      {
+        x: this.state.bottomRightX,
+        y: this.state.bottomRightY
+      },
+      angle
+    );
+
+    let upperRight = this.rotatePoint(
+      {
+        x: this.state.upperRight[0],
+        y: this.state.upperRight[1]
+      },
+      angle
+    );
+
+    let bottomLeft = this.rotatePoint(
+      {
+        x: this.state.bottomLeft[0],
+        y: this.state.bottomLeft[1]
+      },
+      angle
+    );
+
+    console.log(upperLeft);
+    console.log(bottomRight);
+
+    this.setState(
+      {
+        upperLeftX: upperLeft.x,
+        upperLeftY: upperLeft.y,
+        bottomRightX: bottomRight.x,
+        bottomRightY: bottomRight.y,
+        upperRight: [upperRight.x, upperRight.y],
+        bottomLeft: [bottomLeft.x, bottomLeft.y]
+      },
+      () => {
+        this.drawSquare();
+      }
+    );
+  };
+
+  updatePointInputs() {
+    this.refs.ulx.value = this.state.upperLeftX.toFixed(2);
+    this.refs.uly.value = this.state.upperLeftY.toFixed(2);
+    this.refs.brx.value = this.state.bottomRightX.toFixed(2);
+    this.refs.bry.value = this.state.bottomRightY.toFixed(2);
+  }
+
+  rotatePoint(point, angle) {
+    let radians = (angle * Math.PI) / 180.0;
+    let newX = point.x * Math.cos(radians) + point.y * Math.sin(radians);
+    let newY = -point.x * Math.sin(radians) + point.y * Math.cos(radians);
+
+    return { x: newX, y: newY };
+  }
+
   onClearClick = () => {
-    alert("Clear");
+    this.scalePoints(0.0, 0.0);
     this.clearCanvas();
+    this.drawCoordinateLines();
   };
+
   onBuildClick = () => {
-    alert("Build");
-    this.clearCanvas();
-    this.drawRect();
+    let ulx = parseFloat(this.refs.ulx.value);
+    let uly = parseFloat(this.refs.uly.value);
+    let brx = parseFloat(this.refs.brx.value);
+    let bry = parseFloat(this.refs.bry.value);
+
+    if (ulx > brx) {
+      alert("Left Upper X value cannot be greater than Bottom Right X!");
+      return;
+    }
+    if (bry > uly) {
+      alert("Left Upper Y value cannot be less than Bottom Right Y!");
+      return;
+    }
+
+    this.setState(
+      {
+        upperLeftX: ulx,
+        upperLeftY: uly,
+        bottomRightX: brx,
+        bottomRightY: bry,
+        upperRight: [brx, uly],
+        bottomLeft: [ulx, bry]
+      },
+      () => {
+        this.clearCanvas();
+        this.drawSquare();
+      }
+    );
   };
+
   onRotateClick = () => {
-    alert("Rotate");
-    this.clearCanvas();
-    this.buildRect();
+    this.rotateByAngle(this.state.rotateAngle);
   };
-  onButtonClick = () => {
-    alert("Button");
-    this.clearCanvas();
-    this.buildRect();
+
+  onScaleClicked = () => {
+    this.scalePoints(this.state.scaleCoef, this.state.scaleCoef);
   };
-  UpClick = () => {
-    //alert("Up");
-    this.state.valAY -= 10;
-    this.state.valBY -= 10;
-    this.buildRect();
+
+  onUpClick = () => {
+    this.addValueToPoints(0, 1);
   };
-  DownClick = () => {
-    //alert("Down");
-    this.state.valAY += 10;
-    this.state.valBY += 10;
-    this.buildRect();
+
+  onDownClick = () => {
+    this.addValueToPoints(0, -1);
   };
-  LeftClick = () => {
-    //alert("Left");
-    this.state.valAX -= 10;
-    this.state.valBX -= 10;
-    this.buildRect();
+
+  onLeftClick = () => {
+    this.addValueToPoints(-1, 0);
   };
-  RigthClick = () => {
-    //alert("Right");
-    this.state.valAX += 10;
-    this.state.valBX += 10;
-    this.buildRect();
+
+  onRightClick = () => {
+    this.addValueToPoints(1, 0);
   };
-  onChangeAB = (AorB, value) => {
-    this.setState({ [AorB]: value }, () => {
-      console.log("AX: " + this.state.valAX + "\nAY: " + this.state.valAY + "\nBX: " + this.state.valBX + "\nBY: " + this.state.valBY);
-    });
+
+  onPointsValueChanged = (inputValueName, value) => {
+    this.setState({ [inputValueName]: parseFloat(value) });
   };
-  onChangeAngle = value => {
-    this.setState({ angle: value }, () => {
-      console.log("Angle: " + this.state.angle);
-    });
+
+  onAngleChanged = value => {
+    this.setState({ rotateAngle: parseFloat(value) });
   };
-  onChangeKof = value => {
-    this.setState({ kof: value }, () => {
-      console.log("Kof: " + this.state.kof);
-    });
+
+  onScaleCoefChange = value => {
+    this.setState({ scaleCoef: parseFloat(value) });
   };
+
   render() {
     return (
-      <Container fluid style={{ paddingTop: "140px" }}>
+      <Container fluid style={{ paddingTop: "75px" }}>
         <Row className="justify-content-md-center">
           <Col xs lg="2">
             <CardGroup>
@@ -130,94 +298,107 @@ export default class MenuBar extends React.Component {
                     <Button
                       block
                       onClick={() => {
+                        this.onBuildClick();
+                      }}
+                      variant="light"
+                    >
+                      Build
+                    </Button>
+                    <Button
+                      block
+                      onClick={() => {
                         this.onClearClick();
                       }}
+                      variant="light"
                     >
                       Clear
                     </Button>
                   </ListGroup.Item>
                   {/* ======================================================================= */}
                   <ListGroup.Item>
-                    Square diagonal points:
                     <Row>
                       <Col>
-                        AX:{" "}
+                        UL X:{" "}
                         <input
+                          ref="ulx"
                           type="number"
                           defaultValue="0"
                           style={{ width: "80%" }}
                           onChange={v => {
-                            this.onChangeAB("valAX", v.target.value);
+                            this.onPointsValueChanged(
+                              "upperLeftX",
+                              v.target.value
+                            );
                           }}
                         />
                       </Col>
                       <Col>
-                        AY:{" "}
+                        UL Y:{" "}
                         <input
+                          ref="uly"
+                          type="number"
+                          defaultValue="40"
+                          style={{ width: "80%" }}
+                          onChange={v => {
+                            this.onPointsValueChanged(
+                              "upperLeftY",
+                              v.target.value
+                            );
+                          }}
+                        />
+                      </Col>
+                    </Row>
+                    <br></br>
+                    <Row>
+                      <Col>
+                        BR X:{" "}
+                        <input
+                          ref="brx"
+                          type="number"
+                          defaultValue="40"
+                          style={{ width: "80%" }}
+                          onChange={v => {
+                            this.onPointsValueChanged(
+                              "bottomRightX",
+                              v.target.value
+                            );
+                          }}
+                        />
+                      </Col>
+                      <Col>
+                        BR Y:{" "}
+                        <input
+                          ref="bry"
                           type="number"
                           defaultValue="0"
                           style={{ width: "80%" }}
                           onChange={v => {
-                            this.onChangeAB("valAY", v.target.value);
+                            this.onPointsValueChanged(
+                              "bottomRightY",
+                              v.target.value
+                            );
                           }}
                         />
                       </Col>
                     </Row>
-                    <Row>
-                      <Col>
-                        BX:{" "}
-                        <input
-                          type="number"
-                          defaultValue="100"
-                          style={{ width: "80%" }}
-                          onChange={v => {
-                            this.onChangeAB("valBX", v.target.value);
-                          }}
-                        />
-                      </Col>
-                      <Col>
-                        BY:{" "}
-                        <input
-                          type="number"
-                          defaultValue="100"
-                          style={{ width: "80%" }}
-                          onChange={v => {
-                            this.onChangeAB("valBY", v.target.value);
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                  {/* ======================================================================= */}
-                  <ListGroup.Item>
-                    <Button
-                      block
-                      onClick={() => {
-                        this.onBuildClick();
-                      }}
-                    >
-                      Build
-                    </Button>
                   </ListGroup.Item>
                   {/* ======================================================================= */}
                   <ListGroup.Item>
                     <input
                       type="number"
-                      defaultValue = "0"
+                      defaultValue="0"
                       style={{ width: "100%" }}
-                      placeholder="тут кут повороту"
+                      placeholder="rotate rotateAngle"
                       onChange={v => {
-                        this.onChangeAngle(v.target.value);
+                        this.onAngleChanged(v.target.value);
                       }}
                     />
-                  </ListGroup.Item>
-                  {/* ======================================================================= */}
-                  <ListGroup.Item>
                     <Button
                       block
                       onClick={() => {
                         this.onRotateClick();
                       }}
+                      variant="light"
                     >
                       Rotate
                     </Button>
@@ -226,23 +407,22 @@ export default class MenuBar extends React.Component {
                   <ListGroup.Item>
                     <input
                       type="number"
-                      defaultValue = "1"
+                      defaultValue="1"
+                      step="0.01"
                       style={{ width: "100%" }}
-                      placeholder="тут кф скейлу"
+                      placeholder="scale coef."
                       onChange={v => {
-                        this.onChangeKof(v.target.value);
+                        this.onScaleCoefChange(v.target.value);
                       }}
                     />
-                  </ListGroup.Item>
-                  {/* ======================================================================= */}
-                  <ListGroup.Item>
                     <Button
                       block
                       onClick={() => {
-                        this.onButtonClick();
+                        this.onScaleClicked();
                       }}
+                      variant="light"
                     >
-                      Button
+                      Scale
                     </Button>
                   </ListGroup.Item>
                   {/* ======================================================================= */}
@@ -255,10 +435,11 @@ export default class MenuBar extends React.Component {
                         <Button
                           block
                           onClick={() => {
-                            this.UpClick();
+                            this.onUpClick();
                           }}
+                          variant="light"
                         >
-                          Up
+                          &uArr;
                         </Button>
                       </Col>
                     </Row>
@@ -267,30 +448,33 @@ export default class MenuBar extends React.Component {
                         <Button
                           block
                           onClick={() => {
-                            this.LeftClick();
+                            this.onLeftClick();
                           }}
+                          variant="light"
                         >
-                          Left
+                          &lArr;
                         </Button>
                       </Col>
                       <Col md="4" style={{ padding: "5px" }}>
                         <Button
                           block
                           onClick={() => {
-                            this.DownClick();
+                            this.onDownClick();
                           }}
+                          variant="light"
                         >
-                          Down
+                          &dArr;
                         </Button>
                       </Col>
                       <Col md="4" style={{ padding: "5px" }}>
                         <Button
                           block
                           onClick={() => {
-                            this.RigthClick();
+                            this.onRightClick();
                           }}
+                          variant="light"
                         >
-                          Right
+                          &rArr;
                         </Button>
                       </Col>
                     </Row>
@@ -308,7 +492,7 @@ export default class MenuBar extends React.Component {
                     Affine transformations
                   </Card.Header>
 
-                  <canvas ref="canvas" width={640} height={640} />
+                  <canvas ref="canvas" width={580} height={580} />
                 </Card>
               </CardGroup>
             </Container>
