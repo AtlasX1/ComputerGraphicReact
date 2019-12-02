@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import LogoImg from "./NavLogo.png";
-import { Alert, Button, Row, Col, Figure, Navbar, Nav } from "react-bootstrap";
+import { Figure, Navbar, Nav } from "react-bootstrap";
 import HelpFractal from "./components/help/HelpFractal.js";
 import HelpColor from "./components/help/HelpColor.js";
 import HelpAffine from "./components/help/HelpAffine.js";
@@ -38,8 +37,8 @@ const Logotype = () => {
         }}
       >
         <Figure.Image
-          width={75}
-          height={75}
+          width={50}
+          height={50}
           alt="Logo"
           src={LogoImg}
           style={Pad0}
@@ -99,7 +98,7 @@ const NavbarMenu = () => {
   ) {
     return (
       <Navbar
-        style={{ backgroundColor: "#002850", height: "87px" }}
+        style={{ backgroundColor: "#002850", height: "60px" }}
         fixed="top"
       >
         <Logotype />
@@ -109,7 +108,7 @@ const NavbarMenu = () => {
   } else {
     return (
       <Navbar
-        style={{ backgroundColor: "#002850", height: "87px" }}
+        style={{ backgroundColor: "#002850", height: "60px" }}
         fixed="top"
       >
         <Logotype />
