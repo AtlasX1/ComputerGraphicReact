@@ -285,7 +285,8 @@ export default class MenuBar extends React.Component {
 
   render() {
     return (
-      <Container fluid style={{ paddingTop: "75px" }}>
+      <Container fluid style={{ paddingTop: "70px" }}>
+        <h1>Affine Transformation</h1>
         <Row className="justify-content-md-center">
           <Col xs lg="2">
             <CardGroup>
@@ -300,7 +301,7 @@ export default class MenuBar extends React.Component {
                       onClick={() => {
                         this.onBuildClick();
                       }}
-                      variant="light"
+                      variant="outline-secondary"
                     >
                       Build
                     </Button>
@@ -309,7 +310,7 @@ export default class MenuBar extends React.Component {
                       onClick={() => {
                         this.onClearClick();
                       }}
-                      variant="light"
+                      variant="outline-secondary"
                     >
                       Clear
                     </Button>
@@ -393,12 +394,14 @@ export default class MenuBar extends React.Component {
                         this.onAngleChanged(v.target.value);
                       }}
                     />
+
                     <Button
+                      style={{ marginTop: "7px" }}
                       block
                       onClick={() => {
                         this.onRotateClick();
                       }}
-                      variant="light"
+                      variant="outline-secondary"
                     >
                       Rotate
                     </Button>
@@ -416,11 +419,12 @@ export default class MenuBar extends React.Component {
                       }}
                     />
                     <Button
+                      style={{ marginTop: "7px" }}
                       block
                       onClick={() => {
                         this.onScaleClicked();
                       }}
-                      variant="light"
+                      variant="outline-secondary"
                     >
                       Scale
                     </Button>
@@ -437,7 +441,7 @@ export default class MenuBar extends React.Component {
                           onClick={() => {
                             this.onUpClick();
                           }}
-                          variant="light"
+                          variant="outline-secondary"
                         >
                           &uArr;
                         </Button>
@@ -450,7 +454,7 @@ export default class MenuBar extends React.Component {
                           onClick={() => {
                             this.onLeftClick();
                           }}
-                          variant="light"
+                          variant="outline-secondary"
                         >
                           &lArr;
                         </Button>
@@ -461,7 +465,7 @@ export default class MenuBar extends React.Component {
                           onClick={() => {
                             this.onDownClick();
                           }}
-                          variant="light"
+                          variant="outline-secondary"
                         >
                           &dArr;
                         </Button>
@@ -472,7 +476,7 @@ export default class MenuBar extends React.Component {
                           onClick={() => {
                             this.onRightClick();
                           }}
-                          variant="light"
+                          variant="outline-secondary"
                         >
                           &rArr;
                         </Button>

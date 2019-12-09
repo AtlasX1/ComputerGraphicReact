@@ -59,38 +59,78 @@ const Home = () => {
   return (
     <Container fluid style={Pad0}>
       <selection id="home" />
-      <Container fluid style={{height:"1060px", backgroundSize: "1920px 1080px", backgroundImage: `url(${Sky})`}}>
+      <Container
+        fluid
+        style={{
+          height: "1060px",
+          backgroundSize: "1920px 1080px",
+          backgroundImage: `url(${Sky})`
+        }}
+      >
         <br />
 
         <Container
           fluid
-          style={{marginTop: "150px", width: "1020px", marginBottom: "160px" }}
+          style={{ marginTop: "150px", width: "1020px", marginBottom: "160px" }}
         >
-         <h1 align="center" style={{fontFamily: "Font Awesome 5 Brands Regular", color: "#fff", fontSize: "96px"}}>COMPUTER GRAPHICS</h1>
+          <h1
+            align="center"
+            style={{
+              fontFamily: "Font Awesome 5 Brands Regular",
+              color: "#fff",
+              fontSize: "96px"
+            }}
+          >
+            COMPUTER GRAPHICS
+          </h1>
 
-         <Row>
-           <Col>
-           <Figure style={Pad0}>
+          <Row>
+            <Col>
+              <Figure style={Pad0}>
                 <Figure.Image
                   width={550}
                   height={550}
                   alt="Logo"
                   src={Logo}
-                  style={{paddingLeft: 30, marginTop: 40 }}
+                  style={{ paddingLeft: 30, marginTop: 40 }}
                 />
               </Figure>
-           </Col>
-           <Col style={{display: "flex", justifyContent: "flex-end"}}>
-            <p style={{textAlign: "right", fontSize: "36px",fontFamily: "Font Awesome 5 Brands Regular", width: "378px", color: "#fff", bottom: "60px", position: "absolute"}}>“There are three responses to a piece of design – yes, no, and WOW! 
-              Wow is the one to aim for.”</p>
-            <p style={{textAlign:"right", fontSize: "36px",fontFamily: "Font Awesome 5 Brands Regular", width: "378px", color: "#fff", bottom: 0, position: "absolute"}}>Milton Glaser</p>
-           </Col>
-         </Row>
+            </Col>
+            <Col style={{ display: "flex", justifyContent: "flex-end" }}>
+              <p
+                style={{
+                  textAlign: "right",
+                  fontSize: "36px",
+                  fontFamily: "Font Awesome 5 Brands Regular",
+                  width: "378px",
+                  color: "#fff",
+                  bottom: "60px",
+                  position: "absolute"
+                }}
+              >
+                “There are three responses to a piece of design – yes, no, and
+                WOW! Wow is the one to aim for.”
+              </p>
+              <p
+                style={{
+                  textAlign: "right",
+                  fontSize: "36px",
+                  fontFamily: "Font Awesome 5 Brands Regular",
+                  width: "378px",
+                  color: "#fff",
+                  bottom: 0,
+                  position: "absolute"
+                }}
+              >
+                Milton Glaser
+              </p>
+            </Col>
+          </Row>
         </Container>
       </Container>
       {/*----------------------------------------------------------------------------------------------------------------------------------------- */}
       <selection id="FractalArt" />
-      <Container fluid style={{padding: "0 80px"}}>
+      <Container fluid style={{ padding: "0 80px" }}>
         <CourseInfo
           Img={Img1}
           Logo="Logo"
@@ -99,37 +139,55 @@ const Home = () => {
           scale, paint and save them!"
           Link="/CourseFractal"
         />
-        </Container>
-        <selection id="ColorModels" />
-        <Container fluid style={{padding: "0 80px", backgroundColor: "#2F6D92"}}>
-        <Row style={{padding:"220px 30px 220px 0px", display: "flex"}}>      
-          <Col style={{display: "flex", color:"#fff", alignItems:"center"}}>
-            <div style={{width: "640px"}} >
-                <h1 style={{fontSize: "60px"}}>
-                   Color Models
-                </h1>
-                <p style={{fontSize: "24px"}}>
-                In this module you can upload any image, change its color model to HSV, CMYK and back to RGB. 
-                Also you have an opportunity to change brightness of blue color.
-                </p>
-                <Button style={{marginTop:"50px", fontSize: "30px"}} variant="light" href={"/CourseColor"}>Go to module</Button>
+      </Container>
+      <selection id="ColorModels" />
+      <Container
+        fluid
+        style={{ padding: "0 80px", backgroundColor: "#2F6D92" }}
+      >
+        <Row style={{ padding: "220px 30px 220px 0px", display: "flex" }}>
+          <Col style={{ display: "flex", color: "#fff", alignItems: "center" }}>
+            <div style={{ width: "640px" }}>
+              <h1 style={{ fontSize: "60px" }}>Color Models</h1>
+              <p style={{ fontSize: "24px" }}>
+                In this module you can upload any image, change its color model
+                to HSV, CMYK and back to RGB. Also you have an opportunity to
+                change brightness of blue color.
+              </p>
+              <Button
+                style={{ marginTop: "50px", fontSize: "30px" }}
+                variant="light"
+                href={"/CourseColor"}
+              >
+                Go to module
+              </Button>
             </div>
           </Col>
-          <div style={{display: "flex", alignItems:"center", justifyContent: "center", backgroundColor: "#002850", width: "700px", height: "700px", borderRadius: "30px"}}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "#002850",
+              width: "700px",
+              height: "700px",
+              borderRadius: "30px"
+            }}
+          >
             <Figure>
               <Figure.Image
-                style={{borderRadius:"60px"}}
+                style={{ borderRadius: "60px" }}
                 width={500}
                 height={375}
-                alt={"ColorModelLogo"}  
+                alt={"ColorModelLogo"}
                 src={Img3}
               />
             </Figure>
           </div>
         </Row>
-        </Container>
-        <selection id="AffineTransformation" />
-        <Container fluid style={{padding: "0 80px"}}>
+      </Container>
+      <selection id="AffineTransformation" />
+      <Container fluid style={{ padding: "0 80px" }}>
         <CourseInfo
           Img={Img2}
           Logo="Logo"
@@ -138,42 +196,64 @@ const Home = () => {
           transformation you can move, rotate and scale it."
           Link="/CourseAffine"
         />
-        </Container>
+      </Container>
       {/*----------------------------------------------------------------------------------------------------------------------------------------- */}
 
       <selection id="OurTeam" />
-      <Container fluid style={{display:"flex", justifyContent: "center", alignItems:"center", height:"1060px", backgroundSize: "1920px 1080px", backgroundImage: `url(${Sky})`}}>
-      <div style={{display: "flex", flexFlow:"column", alignItems:"center", justifyContent: "center", backgroundColor: "#fff", width: "1440px", height: "730px", borderRadius: "30px"}}>
-        <Container style={{ textAlign: "center"}}>
-          <h1 style={{fontSize: "60px"}}>Our team</h1>
-        </Container>
+      <Container
+        fluid
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "1060px",
+          backgroundSize: "1920px 1080px",
+          backgroundImage: `url(${Sky})`
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexFlow: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#fff",
+            width: "1440px",
+            height: "730px",
+            borderRadius: "30px"
+          }}
+        >
+          <Container style={{ textAlign: "center" }}>
+            <h1 style={{ fontSize: "60px" }}>Our team</h1>
+          </Container>
 
-        <Row style={{display:"flex", flexFlow:"row", paddingBottom: "120px", paddingTop: "50px" }}>
-          <MemberInfo
-            style={{ width: "370px",
-                    height: "370px", 
-                    borderWidth: 0 }}
-            Img={ImgRoma}
-            Name="Моравський Роман"
-            Role="Back-end"
-          />
-          <MemberInfo
-            style={{ width: "370px",
-                      height: "370px",
-                      borderWidth: 0 }}
-            Img={ImgSerhiy}
-            Name="Павльо Сергій"
-            Role="Front-end"
-          />
-          <MemberInfo
-            style={{ width: "370px",
-                      height: "370px",
-                      borderWidth: 0 }}
-            Img={ImgVova}
-            Name="Морозов Володимир"
-            Role="Just good boy"
-          />
-        </Row>
+          <Row
+            style={{
+              display: "flex",
+              flexFlow: "row",
+              paddingBottom: "120px",
+              paddingTop: "50px"
+            }}
+          >
+            <MemberInfo
+              style={{ width: "370px", height: "370px", borderWidth: 0 }}
+              Img={ImgRoma}
+              Name="Моравський Роман"
+              Role="Back-end"
+            />
+            <MemberInfo
+              style={{ width: "370px", height: "370px", borderWidth: 0 }}
+              Img={ImgSerhiy}
+              Name="Павльо Сергій"
+              Role="Front-end"
+            />
+            <MemberInfo
+              style={{ width: "370px", height: "370px", borderWidth: 0 }}
+              Img={ImgVova}
+              Name="Морозов Володимир"
+              Role="Designer"
+            />
+          </Row>
         </div>
       </Container>
     </Container>

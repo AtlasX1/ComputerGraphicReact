@@ -424,7 +424,8 @@ export default class Setting extends React.Component {
 
   render() {
     return (
-      <Container fluid style={{ paddingTop: "75px" }}>
+      <Container fluid style={{ paddingTop: "70px" }}>
+        <h1>Fractal art</h1>
         <Row className="justify-content-md-center">
           <Col xs lg="2">
             <CardGroup>
@@ -550,7 +551,7 @@ export default class Setting extends React.Component {
                     {this.state.CurrentMethodName}
                   </Card.Header>
 
-                  <canvas ref="canvas" width={640} height={480} />
+                  <canvas ref="canvas" width={800} height={600} />
                 </Card>
               </CardGroup>
             </Container>

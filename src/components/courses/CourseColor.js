@@ -302,14 +302,19 @@ export default class MenuBar extends React.Component {
     }
 
     return (
-      <Container fluid style={{ paddingTop: "140px" }}>
+      <Container fluid style={{ paddingTop: "70px" }}>
+        <h1>Color Models</h1>
         <Row>
           <Col md="3">
             <Card>
+              {" "}
+              <Card.Header align="center">Setting</Card.Header>
               <Card.Body>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <Button
+                      block
+                      variant="outline-secondary"
                       onClick={() => {
                         this.setState({ blueValue: 0 });
                         this.changeBlueBrightness(0, 10, -10);
@@ -355,9 +360,9 @@ export default class MenuBar extends React.Component {
                         {this.state.cmykR[1].toFixed(2)},{" "}
                         {this.state.cmykR[2].toFixed(2)},{" "}
                         {this.state.cmykR[3].toFixed(2)} )
-                        <br/>
+                        <br />
                         Original:
-                        <br/>
+                        <br />
                         rgb( {this.state.OrgbR[0]}, {this.state.OrgbR[1]},{" "}
                         {this.state.OrgbR[2]} )
                         <br />
@@ -377,34 +382,37 @@ export default class MenuBar extends React.Component {
             </Card>
           </Col>
           <Col md="9">
-            <CardGroup>
-              <Card>
-                <Card.Body>
-                  <Card.Title>
-                    {" "}
-                    <canvas
-                      onMouseMove={this.onMouseMove}
-                      ref="canvas"
-                      width="400"
-                      height="500"
-                    ></canvas>
-                  </Card.Title>
-                </Card.Body>
-              </Card>
-              <Card>
-                <Card.Body>
-                  <Card.Title>
-                    {" "}
-                    <canvas
-                      onMouseMove={this.onMouseMoveOrig}
-                      ref="originalCanvas"
-                      width="400"
-                      height="500"
-                    ></canvas>
-                  </Card.Title>
-                </Card.Body>
-              </Card>
-            </CardGroup>
+            <Card>
+              <Card.Header align="center">Color Models</Card.Header>
+              <CardGroup>
+                <Card style={{ borderWidth: "0px" }}>
+                  <Card.Body>
+                    <Card.Title>
+                      {" "}
+                      <canvas
+                        onMouseMove={this.onMouseMove}
+                        ref="canvas"
+                        width="400"
+                        height="500"
+                      ></canvas>
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+                <Card style={{ borderWidth: "0px" }}>
+                  <Card.Body>
+                    <Card.Title>
+                      {" "}
+                      <canvas
+                        onMouseMove={this.onMouseMoveOrig}
+                        ref="originalCanvas"
+                        width="400"
+                        height="500"
+                      ></canvas>
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+              </CardGroup>
+            </Card>
           </Col>
         </Row>
       </Container>
