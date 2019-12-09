@@ -303,7 +303,7 @@ export default class MenuBar extends React.Component {
 
     return (
       <Container fluid style={{ paddingTop: "70px" }}>
-        <h1>Color Models</h1>
+   
         <Row>
           <Col md="3">
             <Card>

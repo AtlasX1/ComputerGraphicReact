@@ -6,7 +6,9 @@ import {
   Card,
   Container,
   CardGroup,
-  ListGroup
+  ListGroup,
+  InputGroup,
+  FormControl
 } from "react-bootstrap";
 
 export default class MenuBar extends React.Component {
@@ -286,7 +288,6 @@ export default class MenuBar extends React.Component {
   render() {
     return (
       <Container fluid style={{ paddingTop: "70px" }}>
-        <h1>Affine Transformation</h1>
         <Row className="justify-content-md-center">
           <Col xs lg="2">
             <CardGroup>
@@ -320,81 +321,90 @@ export default class MenuBar extends React.Component {
                     <Row>
                       <Col>
                         UL X:{" "}
-                        <input
-                          ref="ulx"
-                          type="number"
-                          defaultValue="0"
-                          style={{ width: "80%" }}
-                          onChange={v => {
-                            this.onPointsValueChanged(
-                              "upperLeftX",
-                              v.target.value
-                            );
-                          }}
-                        />
+                        <InputGroup className="mb-3" block>
+                          <FormControl
+                            ref="ulx"
+                            type="number"
+                            defaultValue="0"
+                            style={{ width: "80%" }}
+                            onChange={v => {
+                              this.onPointsValueChanged(
+                                "upperLeftX",
+                                v.target.value
+                              );
+                            }}
+                          />
+                        </InputGroup>
                       </Col>
                       <Col>
                         UL Y:{" "}
-                        <input
-                          ref="uly"
-                          type="number"
-                          defaultValue="40"
-                          style={{ width: "80%" }}
-                          onChange={v => {
-                            this.onPointsValueChanged(
-                              "upperLeftY",
-                              v.target.value
-                            );
-                          }}
-                        />
+                        <InputGroup className="mb-3" block>
+                          <FormControl
+                            ref="uly"
+                            type="number"
+                            defaultValue="40"
+                            style={{ width: "80%" }}
+                            onChange={v => {
+                              this.onPointsValueChanged(
+                                "upperLeftY",
+                                v.target.value
+                              );
+                            }}
+                          />
+                        </InputGroup>
                       </Col>
                     </Row>
                     <br></br>
                     <Row>
                       <Col>
                         BR X:{" "}
-                        <input
-                          ref="brx"
-                          type="number"
-                          defaultValue="40"
-                          style={{ width: "80%" }}
-                          onChange={v => {
-                            this.onPointsValueChanged(
-                              "bottomRightX",
-                              v.target.value
-                            );
-                          }}
-                        />
+                        <InputGroup className="mb-3" block>
+                          <FormControl
+                            ref="brx"
+                            type="number"
+                            defaultValue="40"
+                            style={{ width: "80%" }}
+                            onChange={v => {
+                              this.onPointsValueChanged(
+                                "bottomRightX",
+                                v.target.value
+                              );
+                            }}
+                          />
+                        </InputGroup>
                       </Col>
                       <Col>
                         BR Y:{" "}
-                        <input
-                          ref="bry"
-                          type="number"
-                          defaultValue="0"
-                          style={{ width: "80%" }}
-                          onChange={v => {
-                            this.onPointsValueChanged(
-                              "bottomRightY",
-                              v.target.value
-                            );
-                          }}
-                        />
+                        <InputGroup className="mb-3" block>
+                          <FormControl
+                            ref="bry"
+                            type="number"
+                            defaultValue="0"
+                            style={{ width: "80%" }}
+                            onChange={v => {
+                              this.onPointsValueChanged(
+                                "bottomRightY",
+                                v.target.value
+                              );
+                            }}
+                          />
+                        </InputGroup>
                       </Col>
                     </Row>
                   </ListGroup.Item>
                   {/* ======================================================================= */}
                   <ListGroup.Item>
-                    <input
-                      type="number"
-                      defaultValue="0"
-                      style={{ width: "100%" }}
-                      placeholder="rotate rotateAngle"
-                      onChange={v => {
-                        this.onAngleChanged(v.target.value);
-                      }}
-                    />
-
+                    <InputGroup className="mb-3" block>
+                      <FormControl
+                        type="number"
+                        defaultValue="0"
+                        style={{ width: "100%" }}
+                        placeholder="rotate rotateAngle"
+                        onChange={v => {
+                          this.onAngleChanged(v.target.value);
+                        }}
+                      />
+                    </InputGroup>
                     <Button
                       style={{ marginTop: "7px" }}
                       block
@@ -408,16 +418,18 @@ export default class MenuBar extends React.Component {
                   </ListGroup.Item>
                   {/* ======================================================================= */}
                   <ListGroup.Item>
-                    <input
-                      type="number"
-                      defaultValue="1"
-                      step="0.01"
-                      style={{ width: "100%" }}
-                      placeholder="scale coef."
-                      onChange={v => {
-                        this.onScaleCoefChange(v.target.value);
-                      }}
-                    />
+                    <InputGroup className="mb-3" block>
+                      <FormControl
+                        type="number"
+                        defaultValue="1"
+                        step="0.01"
+                        style={{ width: "100%" }}
+                        placeholder="scale coef."
+                        onChange={v => {
+                          this.onScaleCoefChange(v.target.value);
+                        }}
+                      />
+                    </InputGroup>
                     <Button
                       style={{ marginTop: "7px" }}
                       block
